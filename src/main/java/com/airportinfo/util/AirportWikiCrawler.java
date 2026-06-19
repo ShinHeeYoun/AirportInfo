@@ -155,7 +155,9 @@ public class AirportWikiCrawler {
                 bufferedImages[index] = imageCache.get(imageURL);
             } else {
                 URL url = new URL(imageURL);
-                BufferedImage bufferedImage = ImageIO.read(url);
+                java.net.HttpURLConnection connection = (java.net.HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+                BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
                 bufferedImages[index] = bufferedImage;
                 imageCache.put(imageURL, bufferedImage);
             }
