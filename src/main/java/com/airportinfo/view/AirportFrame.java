@@ -134,11 +134,15 @@ public class AirportFrame extends MainFrame {
         frame.setTitle(Translator.getBundleString("application_name"));
         try {
             userController.load();
-            airportController.loadFromDB();
-        } catch (SQLException | IOException e) {
+            try (java.io.InputStream is = getClass().getClassLoader().getResourceAsStream("airport_data.csv")) {
+                if (is != null) {
+                    airportController.loadFromFile(is);
+                } else {
+                    LocalizedOptionPane.showErrorMessageDialog(frame, "cannot_load");
+                }
+            }
+        } catch (Exception e) {
             LocalizedOptionPane.showErrorMessageDialog(frame, "cannot_load");
-        } catch (ClassNotFoundException e) {
-            LocalizedOptionPane.showErrorMessageDialog(frame, "contact_developer");
         }
         frame.setContentPane(rootPanel);
         SwingUtilities.invokeLater(() -> setTheme(AppTheme.Lite));
