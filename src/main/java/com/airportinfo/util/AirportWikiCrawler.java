@@ -40,14 +40,15 @@ public class AirportWikiCrawler {
     }
 
     private static DocumentCacheData createDocument(Airport airport) throws IOException {
+        String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
         try {
             String airportSearchTerm = makeAirportSearchTerm(airport.getAirportName());
             String url = getLocalizedWikiURL() + airportSearchTerm;
-            return new DocumentCacheData(Locale.getDefault(), Jsoup.connect(url).get());
+            return new DocumentCacheData(Locale.getDefault(), Jsoup.connect(url).userAgent(userAgent).get());
         } catch (HttpStatusException e) {
             String airportSearchTerm = makeAirportSearchTerm(airport.getRawData().englishName);
             String url = EN_WIKI_URL + airportSearchTerm;
-            return new DocumentCacheData(Locale.ENGLISH, Jsoup.connect(url).get());
+            return new DocumentCacheData(Locale.ENGLISH, Jsoup.connect(url).userAgent(userAgent).get());
         }
     }
 
