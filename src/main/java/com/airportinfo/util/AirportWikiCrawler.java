@@ -32,7 +32,7 @@ public class AirportWikiCrawler {
 
     private static String getLocalizedWikiURL() {
         Locale locale = Locale.getDefault();
-        return EN_WIKI_URL.replace("en.wikipedia", locale + ".wikipedia");
+        return EN_WIKI_URL.replace("en.wikipedia", locale.getLanguage() + ".wikipedia");
     }
 
     private static String makeAirportSearchTerm(String name) {
@@ -107,9 +107,9 @@ public class AirportWikiCrawler {
         Elements elements = document.select("#mw-content-text > div.mw-parser-output > p");
         for (Element element : elements) {
             String airportInfo = element.text().replaceAll("\\[[0-9a-zA-Z ]*]", "");
-            if (airportInfo.contains(airport.getIATA())
-                    || airportInfo.contains(airport.getAirportName())
-                    || airportInfo.contains(airport.getRawData().englishName))
+            if (airportInfo.contains(airport.getIATA().trim())
+                    || airportInfo.contains(airport.getAirportName().trim())
+                    || airportInfo.contains(airport.getRawData().englishName.trim()))
                 return airportInfo;
         }
         throw new RuntimeException("not_found");
