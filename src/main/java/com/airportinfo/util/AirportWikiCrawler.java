@@ -106,12 +106,10 @@ public class AirportWikiCrawler {
     private String findAirportInformation() {
         Elements elements = document.select(".mw-parser-output p");
         for (Element element : elements) {
-            if (!element.parents().select("table").isEmpty()) continue;
-            
             String airportInfo = element.text().replaceAll("\\[[0-9a-zA-Z ]*]", "");
-            if (airportInfo.contains(airport.getIATA().trim())
+            if (airportInfo.length() > 50 && (airportInfo.contains(airport.getIATA().trim())
                     || airportInfo.contains(airport.getAirportName().trim())
-                    || airportInfo.contains(airport.getRawData().englishName.trim()))
+                    || airportInfo.contains(airport.getRawData().englishName.trim())))
                 return airportInfo;
         }
         throw new RuntimeException("not_found");
