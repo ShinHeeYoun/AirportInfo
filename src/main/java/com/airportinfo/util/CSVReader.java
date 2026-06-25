@@ -29,7 +29,7 @@ public class CSVReader implements AutoCloseable {
      * @param inputStream Input stream
      */
     public CSVReader(InputStream inputStream) {
-        reader = new BufferedReader(new InputStreamReader(inputStream));
+        reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
     }
 
     /**
