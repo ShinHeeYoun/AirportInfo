@@ -129,8 +129,42 @@ public class AirportTableView extends AirportView {
         }
     }
 
+    private int hoveredRow = -1;
+
     private void createUIComponents() {
-        table = new JTable(tableModel);
+        table = new JTable(tableModel) {
+            @Override
+            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+                if (!isRowSelected(row)) {
+                    if (row == hoveredRow) {
+                        c.setBackground(ThemeManager.getInstance().getColor("Table.hoverBackground"));
+                    } else {
+                        c.setBackground(getBackground());
+                    }
+                }
+                return c;
+            }
+        };
+
+        table.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                int oldHoveredRow = hoveredRow;
+                hoveredRow = table.rowAtPoint(e.getPoint());
+                if (oldHoveredRow != hoveredRow) {
+                    table.repaint();
+                }
+            }
+        });
+
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                hoveredRow = -1;
+                table.repaint();
+            }
+        });
     }
 
     /**

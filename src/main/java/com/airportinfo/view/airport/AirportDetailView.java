@@ -49,10 +49,44 @@ public class AirportDetailView extends ComponentView {
         }
     }
 
+    private int hoveredRow = -1;
+
     private void createUIComponents() {
-        airportDetailTable = new JTable(tableModel);
+        airportDetailTable = new JTable(tableModel) {
+            @Override
+            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+                if (!isRowSelected(row)) {
+                    if (row == hoveredRow) {
+                        c.setBackground(ThemeManager.getInstance().getColor("Table.hoverBackground"));
+                    } else {
+                        c.setBackground(ThemeManager.getDefaultColor("Panel.background"));
+                    }
+                }
+                return c;
+            }
+        };
         airportDetailTable.getTableHeader().setVisible(false);
         airportDetailTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        airportDetailTable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(java.awt.event.MouseEvent e) {
+                int oldHoveredRow = hoveredRow;
+                hoveredRow = airportDetailTable.rowAtPoint(e.getPoint());
+                if (oldHoveredRow != hoveredRow) {
+                    airportDetailTable.repaint();
+                }
+            }
+        });
+
+        airportDetailTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                hoveredRow = -1;
+                airportDetailTable.repaint();
+            }
+        });
     }
 
     /**

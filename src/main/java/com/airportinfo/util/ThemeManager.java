@@ -81,6 +81,9 @@ public class ThemeManager {
         addColor(AppTheme.Lite, "Separator.foreground", Color.decode("#A3A3A3"));
         addColor(AppTheme.Dark, "Separator.background", ThemeManager.getDefaultColor(ThemeManager.DARK_THEME, "Label.background"));
         addColor(AppTheme.Dark, "Separator.foreground", Color.decode("#546f7c"));
+        
+        addColor(AppTheme.Lite, "Table.hoverBackground", Color.decode("#E8F0FE"));
+        addColor(AppTheme.Dark, "Table.hoverBackground", Color.decode("#304048"));
     }
 
     /**
