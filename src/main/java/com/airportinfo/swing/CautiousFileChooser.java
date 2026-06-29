@@ -36,11 +36,8 @@ public class CautiousFileChooser extends JFileChooser {
     }
 
     private boolean canWrite(Component parentComponent, File file) {
-        if (file.exists()) {
-            String title = Translator.getBundleString("alert");
-            String message = Translator.getBundleString("confirm_overwrite");
-            int result = JOptionPane.showConfirmDialog(parentComponent, message, title, JOptionPane.OK_CANCEL_OPTION);
-            return result == JOptionPane.OK_OPTION;
+        if (getSelectedFile().exists()) {
+            return LocalizedOptionPane.showConfirmDialog(parentComponent, "alert", "confirm_overwrite");
         }
         return true;
     }

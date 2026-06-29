@@ -22,4 +22,11 @@ public class LocalizedOptionPane {
         String dialogMessage = Translator.getBundleString(message);
         JOptionPane.showMessageDialog(parentComponent, dialogMessage, dialogTitle, JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public static boolean showConfirmDialog(Component parentComponent, String titleKey, String messageKey) {
+        String dialogTitle = Translator.getBundleString(titleKey);
+        String dialogMessage = Translator.getBundleString(messageKey);
+        int result = JOptionPane.showConfirmDialog(parentComponent, dialogMessage, dialogTitle, JOptionPane.YES_NO_OPTION);
+        return result == JOptionPane.YES_OPTION || result == JOptionPane.OK_OPTION;
+    }
 }

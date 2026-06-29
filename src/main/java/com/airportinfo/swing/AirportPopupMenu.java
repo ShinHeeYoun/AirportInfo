@@ -22,10 +22,8 @@ public class AirportPopupMenu extends JPopupMenu {
         }));
         JMenuItem removeAirport = new JMenuItem(Translator.getBundleString("remove"));
         removeAirport.addMouseListener(new MouseReleaseListener(mouseEvent -> {
-            String title = Translator.getBundleString("alert");
-            String message = Translator.getBundleString("are_you_sure");
-            int result = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.OK_OPTION)
+            boolean result = LocalizedOptionPane.showConfirmDialog(this, "alert", "are_you_sure");
+            if (result)
                 airportController.removeAirport(selectedAirport);
         }));
 
